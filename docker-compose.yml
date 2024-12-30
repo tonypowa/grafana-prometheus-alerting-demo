@@ -1,0 +1,73 @@
+
+
+services:
+  # Service 1: Nginx with Prometheus Exporter
+  nginx:
+    image: nginx:latest
+    container_name: nginx
+    ports:
+      - "8081:80"
+    labels:
+      - "prometheus_job=nginx"
+    networks:
+      - monitoring
+    healthcheck:
+      test: ["CMD", "curl", "-f", "http://localhost/"]
+      interval: 30s
+      retries: 3
+
+  # Service 2: Apache HTTPD with Prometheus Exporter
+  apache:
+    image: httpd:latest
+    container_name: apache
+    ports:
+      - "8082:80"
+    labels:
+      - "prometheus_job=apache"
+    networks:
+      - monitoring
+    healthcheck:
+      test: ["CMD", "curl", "-f", "http://localhost/"]
+      interval: 30s
+      retries: 3
+
+  # Service 3: Python Flask with Prometheus Exporter
+  flask:
+    build: ./flask-app
+    container_name: flask
+    ports:
+      - "5000:5000"
+    labels:
+      - "prometheus_job=flask"
+    networks:
+      - monitoring
+    healthcheck:
+      test: ["CMD", "curl", "-f", "http://localhost:5001"]
+      interval: 30s
+      retries: 3
+
+  # Prometheus Server
+  prometheus:
+    image: prom/prometheus:v2.42.0
+    container_name: prometheus
+    volumes:
+      - ./prometheus.yml:/etc/prometheus/prometheus.yml
+    ports:
+      - "9090:9090"
+    networks:
+      - monitoring
+
+  # Grafana Server
+  grafana:
+    image: grafana/grafana:latest
+    container_name: grafana
+    ports:
+      - "3000:3000"
+    networks:
+      - monitoring
+    depends_on:
+      - prometheus
+
+networks:
+  monitoring:
+    driver: bridge
