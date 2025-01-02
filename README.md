@@ -11,8 +11,8 @@ Prometheus is configured to scrape metrics from services running in Docker conta
 
 You can also leverage key-value pairs such as `job` and `instance` to group metrics by a specific service or target within a job:
 
-  - `job`: The monitored job or service (e.g., `flask-app`, `nginx`, or `apache`.).
-  - `instance`: The instance of the service (e.g., `localhost:5000`, `localhost:8081`, `localhost:8082`).
+  - `job`: The monitored job or service (e.g., `flask-app`, `nginx`.).
+  - `instance`: The instance of the service (e.g., `localhost:5000`, `localhost:8081`).
 
 For instance, by querying `up{} == 0`, we can detect when targets go down and use their labels to route alert instances.
 
@@ -48,7 +48,6 @@ Without grouping, each alert generates a separate notification. For example:
 
 - **Alert notification 1:** Instance `localhost:5000` of job `flask-app` is down.
 - **Alert notification 2:** Instance `localhost:8001` of job `nginx` is down.
-- **Alert notification 3:** Instance `localhost:8002` of job `apache` is down.
 
 This can overwhelm the on-call team with redundant notifications.
 
@@ -58,7 +57,7 @@ Enable grouping in Grafana to consolidate alert notifications based on specific 
 In the **Notification policy**:
 
 - **Group by `job`:**
-  - This would output a single notification informing that multiple instances of job `flask-app`, `nginx`, or `apache` are down.
+  - This would output a single notification informing that multiple instances of job `flask-app`, or `nginx` are down.
 
 - **Group by `instance`:**
   - Receive separate notifications for each instance, but consolidated within their group.
@@ -69,10 +68,9 @@ Use additional labels from the `up` metric to route alerts dynamically. Examples
 - **Label: `team`**:
   - Alert instances from `job=flask-app` route to the Flask team.
   - Alert instances from `job=nginx` route to Web Services team.
-  - Alert instances from `job=apache` route to Backend team.
 
 - **Label: `instance`**:
-  - Alert instances from `instance=localhost:5000` (flask), `instance=localhost:8081` (nginx), `instance=localhost:8082` (apache), route to a specific contact point.
+  - Alert instances from `instance=localhost:5000` (flask), `instance=localhost:8081` (nginx) route to a specific contact point.
 
 ---
 
