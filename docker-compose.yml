@@ -1,7 +1,6 @@
 
-
 services:
-  # Service 1: Nginx with Prometheus Exporter
+  # Nginx service
   nginx:
     image: nginx:latest
     container_name: nginx
@@ -11,27 +10,28 @@ services:
       - "prometheus_job=nginx"
     networks:
       - monitoring
+    volumes:
+      - ./nginx.conf:/etc/nginx/nginx.conf
     healthcheck:
       test: ["CMD", "curl", "-f", "http://localhost/"]
       interval: 30s
       retries: 3
 
-  # Service 2: Apache HTTPD with Prometheus Exporter
-  apache:
-    image: httpd:latest
-    container_name: apache
+  # Nginx Exporter (sidecar)
+  nginx-prometheus-exporter:
+    image: nginx/nginx-prometheus-exporter:latest
+    container_name: nginx-prometheus-exporter
     ports:
-      - "8082:80"
-    labels:
-      - "prometheus_job=apache"
+      - "9113:9113"
     networks:
       - monitoring
-    healthcheck:
-      test: ["CMD", "curl", "-f", "http://localhost/"]
-      interval: 30s
-      retries: 3
+    depends_on:
+      - nginx
+    command:
+      - '-nginx.scrape-uri=http://nginx:80/stub_status'
 
-  # Service 3: Python Flask with Prometheus Exporter
+ 
+  # Python Flask service
   flask:
     build: ./flask-app
     container_name: flask
@@ -42,7 +42,7 @@ services:
     networks:
       - monitoring
     healthcheck:
-      test: ["CMD", "curl", "-f", "http://localhost:5001"]
+      test: ["CMD", "curl", "-f", "http://localhost:5000"]
       interval: 30s
       retries: 3
 

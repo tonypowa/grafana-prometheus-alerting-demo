@@ -1,5 +1,5 @@
 from flask import Flask
-from prometheus_client import start_http_server, Summary
+from prometheus_client import start_http_server, Summary, generate_latest
 
 # Create Flask app
 app = Flask(__name__)
@@ -14,7 +14,7 @@ def hello():
 @app.route('/metrics')
 @REQUEST_LATENCY.time()
 def metrics():
-    return generate_latest()
+    return generate_latest() # formats the metrics into a text format that Prometheus can scrape
 
 if __name__ == '__main__':
     # Start Prometheus metrics server
