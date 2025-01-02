@@ -11,7 +11,7 @@ Prometheus is configured to scrape metrics from services running in Docker conta
 
 You can also leverage key-value pairs such as `job` and `instance` to group metrics by a specific service or target within a job:
 
-  - `job`: The monitored job or service (e.g., `flask-app`, `nginx`.).
+  - `job`: The monitored job or service (e.g., `flask`, `nginx`.).
   - `instance`: The instance of the service (e.g., `localhost:5000`, `localhost:8081`).
 
 For instance, by querying `up{} == 0`, we can detect when targets go down and use their labels to route alert instances.
