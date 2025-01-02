@@ -72,26 +72,5 @@ Use additional labels from the `up` metric to route alerts dynamically. Examples
 - **Label: `instance`**:
   - Alert instances from `instance=localhost:5000` (flask), `instance=localhost:8081` (nginx) route to a specific contact point.
 
----
-
-## Exploring other metrics and labels
-Beyond `up`, other Prometheus metrics can be used to leverage grouping and routing:
-
-- **`http_requests_total{}`**:
-  - Represents the total number of HTTP requests served.
-  - Labels:
-    - `method` (e.g., GET, POST)
-    - `status` (e.g., 200, 500)
-
-- **`process_cpu_seconds_total{}`**:
-  - Tracks CPU usage by process.
-  - Labels:
-    - `job` (e.g., `flask-app`)
-    - `instance` (e.g., `localhost:5000`)
-
-- **`container_memory_usage_bytes{}`**:
-  - Monitors memory usage of Docker containers.
-  - Labels:
-    - `container` (e.g., `flask`)
 
 Use these metrics to create new alert rules and benefit from grouping based on different labels.
