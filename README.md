@@ -1,6 +1,6 @@
 # Notification grouping
 
-This repository demonstrates how to use Prometheus and Grafana to showcase **alert notification grouping**. It is a summarized version of the Grafana tutorial [Get started with Grafana Alerting - Part 3](https://grafana.com/tutorials/alerting-get-started-pt3/). For more details, visit the full tutorial
+This repository demonstrates how to use Prometheus and Grafana to showcase **alert notification grouping**.
 
 ### Prometheus
 Prometheus is configured to scrape metrics from services running in Docker containers. The metric `up` is particularly useful in this demo:
