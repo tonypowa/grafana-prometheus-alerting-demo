@@ -2,6 +2,28 @@
 
 This repository contains the files for the **Get Started with Grafana Alerting - Part 5** tutorial. It provides a practical guide to setting up monitoring with Prometheus and Grafana. This fully dockerized solution eliminates the need for manual setup, allowing you to quickly spin up a pre-configured environment. Learn how to collect simulated metrics, visualize them in Grafana, and configure alert rules to track anomalies and system health.
 
+## Set up the Grafana stack
+
+Clone the tutorial environment repository.
+```
+git clone https://github.com/tonypowa/Grafana-and-services-demo
+```
+
+Change to the directory where you cloned the repository:
+```
+cd Grafana-and-services-demo
+```
+
+Run the Grafana stack:
+```
+docker compose build
+```
+
+Bring up the containers:
+
+```
+docker compose up –d
+```
 
 ## Configure alert rules, and visualize alert state in Grafana.
 
