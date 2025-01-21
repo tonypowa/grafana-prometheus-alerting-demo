@@ -1,74 +1,44 @@
-# Notification grouping
+# Monitoring with Prometheus and Grafana: metrics, visualization, and alert rules
 
-This repository demonstrates how to use Prometheus and Grafana to showcase **alert notification grouping**.
-
-### Prometheus
-Prometheus is configured to scrape metrics from services running in Docker containers. The metric `up` is particularly useful in this demo:
-
-- `up{}` indicates whether a target is up (`1`) or down (`0`).
-
-You can also leverage key-value pairs such as `job` and `instance` to group metrics by a specific service or target within a job:
-
-  - `job`: The monitored job or service (e.g., `flask`, `nginx`.).
-  - `instance`: The instance of the service (e.g., `localhost:5000`, `localhost:8081`).
-
-For instance, by querying `up{} == 0`, we can detect when targets go down and use their labels to route alert instances.
-
-### Grafana Alerting
-
-Alert notifications can be grouped and routed dinamically:
-
-- **Grouping:** Consolidates multiple alerts into fewer notifications by grouping based on specific labels (e.g., `job`, `instance`).
-- **Routing:** Dynamically routes notifications to specific contact points based on label matchers (e.g., `team`).
-
----
-
-## Demonstrating grouping
-
-### Step 1. Trigger alert rules
-1. **Shutting down services**:
-   - Stop one or more Docker containers.
-   - Prometheus will detect the targets as `down` (`up == 0`), triggering alerts in Grafana.
-
-   ```bash
-   docker stop flask
-   ```
-
-2. **Restarting services**:
-   - Restart the stopped containers to resolve the alerts.
-
-   ```bash
-   docker start flask
-   ```
-
-### Step 2. View alert notifications without grouping
-Without grouping, each alert generates a separate notification. For example:
-
-- **Alert notification 1:** Instance `localhost:5000` of job `flask-app` is down.
-- **Alert notification 2:** Instance `localhost:8001` of job `nginx` is down.
-
-This can overwhelm the on-call team with redundant notifications.
-
-### Step 3. Enable grouping
-Enable grouping in Grafana to consolidate alert notifications based on specific labels. Examples:
-
-In the **Notification policy**:
-
-- **Group by `job`:**
-  - This would output a single notification informing that multiple instances of job `flask-app`, or `nginx` are down.
-
-- **Group by `instance`:**
-  - Receive separate notifications for each instance, but consolidated within their group.
-
-### Step 4: Routing with label matchers
-Use additional labels from the `up` metric to route alerts dynamically. Examples:
-
-- **Label: `team`**:
-  - Alert instances from `job=flask-app` route to the Flask team.
-  - Alert instances from `job=nginx` route to Web Services team.
-
-- **Label: `instance`**:
-  - Alert instances from `instance=localhost:5000` (flask), `instance=localhost:8081` (nginx) route to a specific contact point.
+This repository contains the files for the **Get Started with Grafana Alerting - Part 5** tutorial. It provides a practical guide to setting up monitoring with Prometheus and Grafana. This fully dockerized solution eliminates the need for manual setup, allowing you to quickly spin up a pre-configured environment. Learn how to collect simulated metrics, visualize them in Grafana, and configure alert rules to track anomalies and system health.
 
 
-Use these metrics to create new alert rules and benefit from grouping based on different labels.
+## Configure alert rules, and visualize alert state in Grafana.
+
+Grafana Alerting allows you to monitor critical metrics and create actionable notifications for your dashboards. Follow these steps to manually create alert rules and link them to the visualizations (available only in time series panels):
+
+1. **Create a time series panel**  
+   - In Grafana, create a new dashboard and add a time series panel.
+   - Configure the panel to query CPU usage metrics using PromQL. For example:
+     ```promql
+     flask_app_cpu_usage{job="flask"}
+     ```
+   - This query will display the simulated CPU usage data as a time series graph.
+   - Save your dashboard.
+
+2. **Create an alert rule for CPU sage**  
+   - Navigate to **Alerting** > **Alert rules** from the Grafana sidebar.
+   - Click **New alert rule** to create a new alert.
+   - In the alert rule configuration, enter the same query used in the time series panel (e.g., `flask_app_cpu_usage{job="flask"}`).
+   - Define a condition to trigger the alert, such as CPU usage exceeding `80%`. For example:
+
+     ![image](https://github.com/user-attachments/assets/5ef6bad8-bf09-469b-9fb9-8e877d7fc2b3)
+
+3. **Link the alert rule to the panel**  
+   - Scroll down to the Configure notification message section
+   - Click **Link dashboard and panel**.
+   - Find the panel that you created earlier.
+   - Click **Confirm**
+   - Complete any other additional required details.
+   - Click **Save rule and exit**
+
+4. **Repeat for memory usage**  
+   
+   - Create a new alert rule for memory usage, defining a threshold condition (e.g., memory usage exceeding `75%`).
+
+Once the alert rules are created, they should appear as **health indicators** (colored heart icons: red heart when the alert is in Alerting state, and green heart when in Normal state..) on the linked panel.
+In addition, the annotations will include helpful context, such as the time the alert was triggered.
+
+![image](https://github.com/user-attachments/assets/b1de32ea-b960-4601-a2f5-35a67f3bec7a)
+
+
