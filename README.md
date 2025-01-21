@@ -6,12 +6,12 @@ This repository contains the files for the **Get Started with Grafana Alerting -
 
 Clone the tutorial environment repository.
 ```
-git clone https://github.com/tonypowa/Grafana-and-services-demo
+git clone https://github.com/tonypowa/grafana-prometheus-alerting-demo.git
 ```
 
 Change to the directory where you cloned the repository:
 ```
-cd Grafana-and-services-demo
+cd grafana-prometheus-alerting-demo
 ```
 
 Run the Grafana stack:
