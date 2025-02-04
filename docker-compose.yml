@@ -1,44 +1,31 @@
-
 services:
-  # Nginx service
-  nginx:
-    image: nginx:latest
-    container_name: nginx
+  # Flask App - Production
+  flask-prod:
+    build: ./flask-app
+    container_name: flask-prod
     ports:
-      - "8081:80"
+      - "5001:5000"
+    environment:
+      - ENVIRONMENT=prod
     labels:
-      - "prometheus_job=nginx"
+      - "prometheus_job=flask-prod"
     networks:
       - monitoring
-    volumes:
-      - ./nginx.conf:/etc/nginx/nginx.conf
     healthcheck:
-      test: ["CMD", "curl", "-f", "http://localhost/"]
+      test: ["CMD", "curl", "-f", "http://localhost:5000"]
       interval: 30s
       retries: 3
 
-  # Nginx Exporter (sidecar)
-  nginx-prometheus-exporter:
-    image: nginx/nginx-prometheus-exporter:latest
-    container_name: nginx-prometheus-exporter
-    ports:
-      - "9113:9113"
-    networks:
-      - monitoring
-    depends_on:
-      - nginx
-    command:
-      - '-nginx.scrape-uri=http://nginx:80/stub_status'
-
- 
-  # Python Flask service
-  flask:
+  # Flask App - Staging
+  flask-staging:
     build: ./flask-app
-    container_name: flask
+    container_name: flask-staging
     ports:
-      - "5000:5000"
+      - "5002:5000"
+    environment:
+      - ENVIRONMENT=staging
     labels:
-      - "prometheus_job=flask"
+      - "prometheus_job=flask-staging"
     networks:
       - monitoring
     healthcheck:
