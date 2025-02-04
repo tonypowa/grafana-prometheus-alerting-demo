@@ -54,6 +54,8 @@ services:
       - monitoring
     depends_on:
       - prometheus
+    volumes:
+      - ./provisioning/:/etc/grafana/provisioning/datasources # provisions prometheus as data source
 
 networks:
   monitoring:
