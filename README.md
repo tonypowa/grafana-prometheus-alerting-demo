@@ -14,7 +14,7 @@ Change to the directory where you cloned the repository:
 cd grafana-prometheus-alerting-demo
 ```
 
-Run the Grafana stack:
+Build the Grafana stack:
 ```
 docker compose build
 ```
