@@ -1,6 +1,6 @@
 # Monitoring with Prometheus and Grafana: metrics, visualization, and alert rules
 
-This repository contains the files for the **Get Started with Grafana Alerting - Part 5** tutorial. It provides a practical guide to setting up monitoring with Prometheus and Grafana. This fully dockerized solution eliminates the need for manual setup, allowing you to quickly spin up a pre-configured environment. Learn how to collect simulated metrics, visualize them in Grafana, and configure alert rules to track anomalies and system health.
+This repository contains the files for the [Get Started with Grafana Alerting - Part 5 tutorial](https://grafana.com/tutorials/alerting-get-started-pt5/). It provides a practical guide to setting up monitoring with Prometheus and Grafana. This fully dockerized solution eliminates the need for manual setup, allowing you to quickly spin up a pre-configured environment. Learn how to collect simulated metrics, visualize them in Grafana, and configure alert rules to track anomalies and system health.
 
 ## Set up the Grafana stack
 
