@@ -29,6 +29,9 @@ docker compose up –d
 
 Grafana Alerting allows you to monitor critical metrics and create actionable notifications for your dashboards. Follow these steps to manually create alert rules and link them to the visualizations (available only in time series panels):
 
+1. **Log in to Grafana**:
+    - Navigate to http://localhost:3000, where Grafana should be running.
+    - Username and password: `admin`
 1. **Create a time series panel**  
    - In Grafana, create a new dashboard and add a time series panel.
    - Configure the panel to query CPU usage metrics using PromQL. For example:
