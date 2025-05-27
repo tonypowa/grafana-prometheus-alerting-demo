@@ -8,7 +8,8 @@ services:
     ports:
       - "5001:5000"
     environment:
-      - ENVIRONMENT=prod
+      - INSTANCE=prod-us-cs30
+      - FALLBACK_INSTANCE=fallback-prod-unknown
     labels:
       - "prometheus_job=flask-prod"
     networks:
@@ -25,7 +26,8 @@ services:
     ports:
       - "5002:5000"
     environment:
-      - ENVIRONMENT=staging
+      - INSTANCE=staging-us-cs20
+      - FALLBACK_INSTANCE=fallback-staging-unknown
     labels:
       - "prometheus_job=flask-staging"
     networks:
@@ -48,10 +50,10 @@ services:
 
   # Grafana Server
   grafana:
-    image: grafana/grafana:latest
+    image: grafana/grafana:12.0.1
     container_name: grafana
     ports:
-      - "3000:3000"
+      - "3001:3000"
     networks:
       - monitoring
     depends_on:
